@@ -1,22 +1,27 @@
 package org.firstinspires.ftc.teamcode;
 
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import org.firstinspires.ftc.teamcode.hardware.Hardware;
 
-@TeleOp(name = "TeleOp")
-public class LinearTeleOp extends LinearOpMode {
+@TeleOp(name = "Ravioli TeleOp")
+public class RavioliTeleOp extends OpMode {
 
     Hardware hardware;
-    @Override
-    public void runOpMode() throws InterruptedException {
-        hardware.init(hardwareMap);
 
-        waitForStart();
-        while(opModeIsActive()) {
-            checkControllerInput();
-        }
+    @Override
+    public void init() {
+        hardware = new Hardware();
+        hardware.init(hardwareMap);
+    }
+
+    @Override
+    public void loop() {
+        updateMotors();
+    }
+
+    private void updateMotors() {
+        checkControllerInput();
     }
 
     private void checkControllerInput() {
@@ -37,5 +42,7 @@ public class LinearTeleOp extends LinearOpMode {
         hardware.leftFront.setPower(forward + turn + strafe);
         hardware.leftBack.setPower(forward + turn - strafe);
     }
+
+
 }
 
