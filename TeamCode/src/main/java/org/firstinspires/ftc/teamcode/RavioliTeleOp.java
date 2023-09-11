@@ -38,6 +38,7 @@ public class RavioliTeleOp extends OpMode {
     @Override
     public void loop() {
         drive();
+        intake();
     }
 
     private void drive() {
@@ -98,6 +99,10 @@ public class RavioliTeleOp extends OpMode {
         hardware.rightBack.setPower(rightBackPower);
         hardware.leftFront.setPower(leftFrontPower);
         hardware.leftBack.setPower(leftBackPower);
+    }
+
+    private void intake() {
+
     }
 }
 
