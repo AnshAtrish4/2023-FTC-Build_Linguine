@@ -24,6 +24,7 @@ public class Hardware {
     public void init(HardwareMap hardwareMap) {
         Assert.assertNotNull(hardwareMap);
         initializeDriveMotors(hardwareMap);
+        initializeIntakeMotors(hardwareMap);
     }
 
     public void initializeDriveMotors(HardwareMap hardwareMap) {
