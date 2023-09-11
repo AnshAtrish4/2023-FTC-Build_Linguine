@@ -21,14 +21,17 @@ public class Hardware {
     }
 
     public void initializeDriveMotors(HardwareMap hardwareMap) {
+        //set up drive motors
         rightFront = hardwareMap.get(DcMotorEx.class, HardwareIDs.RIGHT_FRONT_MOTOR);
         rightBack = hardwareMap.get(DcMotorEx.class, HardwareIDs.RIGHT_BACK_MOTOR);
         leftFront = hardwareMap.get(DcMotorEx.class, HardwareIDs.LEFT_FRONT_MOTOR);
         leftBack = hardwareMap.get(DcMotorEx.class, HardwareIDs.LEFT_BACK_MOTOR);
 
+        //set left side to reverse
         leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
         leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
 
+        //set motors to desired settings
         driveMotors = new DcMotorEx[]{rightFront, rightBack, leftFront, leftBack};
         for(DcMotorEx motor: driveMotors){
             motor.setPower(0.0);
