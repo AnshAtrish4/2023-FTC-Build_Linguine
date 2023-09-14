@@ -68,6 +68,36 @@ public class RavioliTeleOp extends OpMode {
         double leftFrontPower = forward + turn + strafe;
         double leftBackPower = forward + turn - strafe;
 
+
+        if (gamepad1.dpad_up )
+        {
+            leftFrontPower = .7;
+            rightBackPower = .7;
+            rightFrontPower = .7;
+            leftBackPower = .7;
+        }
+        else if (gamepad1.dpad_down)
+        {
+            leftFrontPower = -.7;
+            rightBackPower = -.7;
+            rightFrontPower = -.7;
+            leftBackPower = -.7;
+        }
+        else if (gamepad1.dpad_right)
+        {
+            leftFrontPower = .7;
+            rightBackPower = .7;
+            rightFrontPower = -.7;
+            leftBackPower = -.7;
+        }
+        else if (gamepad1.dpad_left)
+        {
+            leftFrontPower = -.7;
+            rightBackPower = -.7;
+            rightFrontPower = .7;
+            leftBackPower = .7;
+        }
+
         if(Math.abs(rightFrontPower) > 1 || Math.abs(rightBackPower) > 1 || Math.abs(leftFrontPower) > 1 || Math.abs(leftBackPower) > 1) {
             double max;
             max = Math.max(Math.abs(rightFrontPower), Math.abs(rightBackPower));
