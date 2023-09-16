@@ -44,19 +44,9 @@ public class Hardware {
             motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
+
+
     }
 
-    public void initializeIntakeMotors(HardwareMap hardwareMap) {
-        //set up intake servos
 
-
-        //set up intake motors
-
-
-        //set intake servo settings
-
-
-        //set intake motor
-
-    }
 }

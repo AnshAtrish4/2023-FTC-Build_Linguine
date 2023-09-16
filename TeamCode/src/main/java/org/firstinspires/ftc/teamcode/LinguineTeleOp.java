@@ -45,9 +45,9 @@ public class LinguineTeleOp extends OpMode {
 
         //get controls from the controller
         double forward, strafe, turn;
-        forward = gamepad1.left_stick_y;
-        strafe = gamepad1.right_stick_x;
-        turn = gamepad1.right_stick_y;
+        forward = -gamepad1.left_stick_y;
+        strafe = gamepad1.right_stick_x; //Counteract imperfect strafing
+        turn = -gamepad1.right_stick_x;
 
         //calculate drive values
         double rightFrontPower = forward - turn - strafe;
