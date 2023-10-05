@@ -17,6 +17,7 @@ public class Hardware {
     public DcMotorEx rightBack;
     public DcMotorEx leftBack;
     public DcMotorEx[] driveMotors;
+    public DcMotorEx intake;
     public BNO055IMU imu;
 
 
@@ -53,6 +54,13 @@ public class Hardware {
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.loggingEnabled = false;
         imu.initialize(parameters);
+    }
+
+    public void initializeSupplementaryMotors(HardwareMap hardwareMap){
+      intake = hardwareMap.get(DcMotorEx.class,HardwareIDs.INTAKE);
+      intake.setPower(0);
+      intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+      intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 

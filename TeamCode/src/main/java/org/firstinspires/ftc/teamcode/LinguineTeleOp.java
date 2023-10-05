@@ -21,9 +21,11 @@ public class LinguineTeleOp extends OpMode {
     Gamepad GamePad2 = new Gamepad();
     final double SLOW_SPEED = 0.35;
     final double FAST_SPEED = 0.8;
+    final double INTAKE_SPEED = 0.5;
     double speedConstant;
     ElapsedTime buttonTime = null;
     boolean fieldOriented;
+    boolean intakeOn = false;
     Orientation angles = new Orientation();
     double  yaw;
     double adjusted_yaw;
@@ -61,6 +63,24 @@ public class LinguineTeleOp extends OpMode {
 
     private void drive() {
 
+        //Slow mode
+        if (gamepad1.square && speedConstant == FAST_SPEED && buttonTime.time() >= 500)
+        {
+            speedConstant = SLOW_SPEED;
+            buttonTime.reset();
+        }
+        else if (gamepad1.square && speedConstant == SLOW_SPEED && buttonTime.time() >= 500)
+        {
+            speedConstant = FAST_SPEED;
+            buttonTime.reset();
+        }
+
+        //Field Oriented Mode
+        if(gamepad1.options && buttonTime.time()>=500){
+            fieldOriented = true;
+        }else if(gamepad1.share && buttonTime.time() >= 500){
+            fieldOriented = false;
+        }
 
         //get controls from the controller
         double forward, strafe, turn;
@@ -153,36 +173,20 @@ public class LinguineTeleOp extends OpMode {
         }
 
 
-
-
-
-        //Slow mode
-        if (gamepad1.square && speedConstant == FAST_SPEED && buttonTime.time() >= 500)
-        {
-            speedConstant = SLOW_SPEED;
-            buttonTime.reset();
-        }
-        else if (gamepad1.square && speedConstant == SLOW_SPEED && buttonTime.time() >= 500)
-        {
-            speedConstant = FAST_SPEED;
-            buttonTime.reset();
-        }
-
-        //Field Oriented Mode
-        if(gamepad1.options && buttonTime.time()>=500){
-            fieldOriented = true;
-        }else if(gamepad1.share && buttonTime.time() >= 500){
-            fieldOriented = false;
-        }
-
-
-
-
         //set drive motor power
         hardware.leftFront.setPower(leftFrontPower*speedConstant);
         hardware.leftBack.setPower(leftBackPower*speedConstant);
         hardware.rightFront.setPower(rightFrontPower*speedConstant);
         hardware.rightBack.setPower(rightBackPower*speedConstant);
+    }
+
+    private void intake(){
+        if(gamepad2.square&&GamePad2.square){
+            intakeOn = !intakeOn;
+        }
+        if(intakeOn){
+            hardware.intake.setPower(INTAKE_SPEED);
+        }
     }
 
 
