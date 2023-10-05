@@ -56,6 +56,7 @@ public class LinguineTeleOp extends OpMode {
         GamePad1.copy(gamepad1);
         GamePad2.copy(gamepad2);
         drive();
+        intake();
 
 
     }
