@@ -18,13 +18,16 @@ public class Hardware {
     public DcMotorEx leftBack;
     public DcMotorEx[] driveMotors;
     public DcMotorEx intake;
-    public BNO055IMU imu;
+    public DcMotorEx arm;
+
 
 
 
     public void init(HardwareMap hardwareMap) {
         Assert.assertNotNull(hardwareMap);
         initializeDriveMotors(hardwareMap);
+        intializeIntakeMotors(hardwareMap);
+        intializeArmMotors(hardwareMap);
 
     }
 
@@ -47,20 +50,21 @@ public class Hardware {
             motor.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         }
 
-        imu = hardwareMap.get(BNO055IMU.class,HardwareIDs.IMU);
-        BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.mode = BNO055IMU.SensorMode.IMU;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
-        imu.initialize(parameters);
+
     }
 
-    public void initializeSupplementaryMotors(HardwareMap hardwareMap){
+    public void intializeIntakeMotors(HardwareMap hardwareMap){
       intake = hardwareMap.get(DcMotorEx.class,HardwareIDs.INTAKE);
-      intake.setPower(0);
+      intake.setPower(0.0);
       intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
       intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void intializeArmMotors(HardwareMap hardwareMap){
+        arm = hardwareMap.get(DcMotorEx.class,HardwareIDs.ARM);
+        arm.setPower(0.0);
+        arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 
