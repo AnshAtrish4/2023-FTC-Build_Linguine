@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.hardware.bosch.BNO055IMU;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 import org.firstinspires.ftc.robotcore.internal.system.Assert;
@@ -17,8 +18,10 @@ public class Hardware {
     public DcMotorEx rightBack;
     public DcMotorEx leftBack;
     public DcMotorEx[] driveMotors;
+    public DcMotorEx outtake;
     public DcMotorEx intake;
     public DcMotorEx arm;
+    public Servo launchPusher;
 
 
 
@@ -28,6 +31,7 @@ public class Hardware {
         initializeDriveMotors(hardwareMap);
         intializeIntakeMotors(hardwareMap);
         intializeArmMotors(hardwareMap);
+        intializeLaunchMotors(hardwareMap);
 
     }
 
@@ -65,6 +69,17 @@ public class Hardware {
         arm.setPower(0.0);
         arm.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         arm.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
+
+    public void intializeLaunchMotors(HardwareMap hardwareMap){
+        outtake = hardwareMap.get(DcMotorEx.class,HardwareIDs.OUTTAKE);
+        outtake.setPower(0.0);
+        outtake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        outtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        launchPusher = hardwareMap.get(Servo.class,HardwareIDs.PUSHER);
+        launchPusher.setPosition(0.0);
+
     }
 
 

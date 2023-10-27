@@ -17,13 +17,14 @@ public class LinguineTeleOp extends OpMode {
 
 
     Hardware hardware;
-    final double SLOW_SPEED = 0.35;
+    final double SLOW_SPEED = 0.25;
     final double FAST_SPEED = 0.8;
     final double INTAKE_SPEED = 1.0;
     double speedConstant;
     ElapsedTime driveTime = null;
     ElapsedTime intakeTime = null;
     ElapsedTime armTime = null;
+    ElapsedTime outtakeTime = null;
     boolean intakeOn = false;
     @Override
     public void init() {
@@ -33,6 +34,7 @@ public class LinguineTeleOp extends OpMode {
         driveTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
         intakeTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
         armTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+        outtakeTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
         telemetry.addData("Status:: ", "Initialized");
         telemetry.update();
 
@@ -52,6 +54,7 @@ public class LinguineTeleOp extends OpMode {
         drive();
         intake();
         arm();
+        launch();
 
 
     }
@@ -87,10 +90,10 @@ public class LinguineTeleOp extends OpMode {
         double leftFrontPower ;//= forward + turn + strafe;
         double leftBackPower ;//= forward + turn - strafe;
 
-            leftFrontPower = forward + turn + strafe;
-            leftBackPower = forward + turn - strafe;
-            rightFrontPower = forward - turn - strafe;
-            rightBackPower = forward - turn + strafe;
+        leftFrontPower = forward + turn + strafe;
+        leftBackPower = forward + turn - strafe;
+        rightFrontPower = forward - turn - strafe;
+        rightBackPower = forward - turn + strafe;
 
 
         if(Math.abs(leftFrontPower) > 1 || Math.abs(leftBackPower) > 1 || Math.abs(rightFrontPower) > 1 || Math.abs(rightBackPower) > 1) {
@@ -147,23 +150,45 @@ public class LinguineTeleOp extends OpMode {
     }
 
     private void intake(){
-        if(gamepad2.square && intakeTime.time() >= 500){
-            intakeOn = !intakeOn;
-            intakeTime.reset();
-        }
-        if(intakeOn){
-            hardware.intake.setPower(INTAKE_SPEED);
+
+        // if(gamepad2.right_bumper&& intakeTime.time() >= 500){
+        //   intakeOn = !intakeOn;
+        //  intakeTime.reset();
+        //}
+        //if(intakeOn){
+        //   hardware.intake.setPower(INTAKE_SPEED);
+        //}
+        if(gamepad1.left_trigger > 0.0){
+            hardware.intake.setPower(gamepad1.left_trigger);
+        }else if(gamepad1.right_trigger > 0.0){
+            hardware.intake.setPower(-gamepad1.right_trigger);
+        }else{
+            hardware.intake.setPower(0);
         }
 
     }
+    public void launch(){
+        if(gamepad2.share && outtakeTime.time() >= 500) {
+            if (gamepad2.right_trigger > 0.5) {
+                hardware.outtake.setPower(gamepad2.right_trigger);
+                telemetry.addData("Flywheels:: ", "Spinning");
+            } else {
+                hardware.outtake.setPower(0.0);
+                telemetry.addData("Flywheels:: ", "Stopped");
+            }
+            outtakeTime.reset();
+        }
+    }
 
     public void arm(){
-        if(gamepad2.right_trigger > 0.0){
-            hardware.arm.setPower(gamepad2.right_trigger);
-        }else if(gamepad2.left_trigger > 0.0){
-            hardware.arm.setPower(-gamepad2.left_trigger);
-        }else{
-            hardware.arm.setPower(0);
+        if(gamepad2.options) {
+            if (gamepad2.right_trigger > 0.0) {
+                hardware.arm.setPower(gamepad2.right_trigger * 0.50);
+            } else if (gamepad2.left_trigger > 0.0) {
+                hardware.arm.setPower(-gamepad2.left_trigger * 0.50);
+            } else {
+                hardware.arm.setPower(0);
+            }
         }
     }
 
@@ -171,6 +196,7 @@ public class LinguineTeleOp extends OpMode {
 
 
 }
+
 
 
 
