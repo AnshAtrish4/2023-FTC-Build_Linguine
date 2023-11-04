@@ -17,14 +17,13 @@ public class LinguineTeleOp extends OpMode {
 
 
     Hardware hardware;
-    final double SLOW_SPEED = 0.25;
+    final double SLOW_SPEED = 0.30;
     final double FAST_SPEED = 0.8;
     final double INTAKE_SPEED = 1.0;
+    final double ARM_SPEED = 0.5;
     double speedConstant;
     ElapsedTime driveTime = null;
-    ElapsedTime intakeTime = null;
-    ElapsedTime armTime = null;
-    ElapsedTime outtakeTime = null;
+
     boolean intakeOn = false;
     @Override
     public void init() {
@@ -32,9 +31,7 @@ public class LinguineTeleOp extends OpMode {
         hardware.init(hardwareMap);
         speedConstant = FAST_SPEED;
         driveTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-        intakeTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-        armTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-        outtakeTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
+
         telemetry.addData("Status:: ", "Initialized");
         telemetry.update();
 
@@ -73,8 +70,6 @@ public class LinguineTeleOp extends OpMode {
             speedConstant = FAST_SPEED;
             driveTime.reset();
         }
-
-        //Field Oriented Mode
 
 
         //get controls from the controller
@@ -166,29 +161,53 @@ public class LinguineTeleOp extends OpMode {
             hardware.intake.setPower(0);
         }
 
+
+
     }
     public void launch(){
-        if(gamepad2.share && outtakeTime.time() >= 500) {
-            if (gamepad2.right_trigger > 0.5) {
-                hardware.outtake.setPower(gamepad2.right_trigger);
-                telemetry.addData("Flywheels:: ", "Spinning");
-            } else {
-                hardware.outtake.setPower(0.0);
-                telemetry.addData("Flywheels:: ", "Stopped");
-            }
-            outtakeTime.reset();
+        //if(gamepad2.share ) {
+          //  if (gamepad2.right_trigger > 0.0) {
+            //    hardware.outtake.setPower(-gamepad2.right_trigger);
+              //  telemetry.addData("Flywheels:: ", "Spinning");
+            //} else {
+             //   hardware.outtake.setPower(0.0);
+              //  telemetry.addData("Flywheels:: ", "Stopped");
+            //}
+        //}
+
+        //New Outtake Flywheel controls
+        if(gamepad2.right_trigger>0.0){
+            hardware.outtake.setPower(-gamepad2.right_trigger);
+            telemetry.addData("Flywheels:: ", "Spinning");
+        }else{
+            hardware.outtake.setPower(0.0);
+            telemetry.addData("Flywheels:: ", "Stopped");
+        }
+
+        //New pusher controls
+        if(gamepad2.right_bumper){
+            hardware.launchPusher.setPosition(1.0);
+        }else if(gamepad2.left_bumper){
+            hardware.launchPusher.setPosition(-1.0);
         }
     }
 
     public void arm(){
-        if(gamepad2.options) {
-            if (gamepad2.right_trigger > 0.0) {
-                hardware.arm.setPower(gamepad2.right_trigger * 0.50);
-            } else if (gamepad2.left_trigger > 0.0) {
-                hardware.arm.setPower(-gamepad2.left_trigger * 0.50);
-            } else {
-                hardware.arm.setPower(0);
-            }
+     //   if(gamepad2.options) {
+       //     if (gamepad2.right_trigger > 0.0) {
+         //       hardware.arm.setPower(gamepad2.right_trigger * 0.50);
+           // } else if (gamepad2.left_trigger > 0.0) {
+             //   hardware.arm.setPower(-gamepad2.left_trigger * 0.50);
+            //} else {
+             //   hardware.arm.setPower(0);
+            //}
+
+        //New Arm Controls
+
+        if(gamepad2.square){
+            hardware.arm.setPower(ARM_SPEED);
+        }else if (gamepad2.circle){
+            hardware.arm.setPower(-ARM_SPEED);
         }
     }
 
@@ -196,6 +215,8 @@ public class LinguineTeleOp extends OpMode {
 
 
 }
+
+
 
 
 
