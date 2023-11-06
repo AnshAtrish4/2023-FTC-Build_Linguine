@@ -19,19 +19,15 @@ public class LinguineTeleOp extends OpMode {
     Hardware hardware;
     final double SLOW_SPEED = 0.30;
     final double FAST_SPEED = 0.8;
-    final double INTAKE_SPEED = 1.0;
-    final double ARM_SPEED = 0.5;
     double speedConstant;
     ElapsedTime driveTime = null;
 
-    boolean intakeOn = false;
     @Override
     public void init() {
         hardware = new Hardware();
         hardware.init(hardwareMap);
         speedConstant = FAST_SPEED;
         driveTime = new ElapsedTime(ElapsedTime.Resolution.MILLISECONDS);
-
         telemetry.addData("Status:: ", "Initialized");
         telemetry.update();
 
@@ -166,48 +162,76 @@ public class LinguineTeleOp extends OpMode {
     }
     public void launch(){
         //if(gamepad2.share ) {
-          //  if (gamepad2.right_trigger > 0.0) {
-            //    hardware.outtake.setPower(-gamepad2.right_trigger);
-              //  telemetry.addData("Flywheels:: ", "Spinning");
-            //} else {
-             //   hardware.outtake.setPower(0.0);
-              //  telemetry.addData("Flywheels:: ", "Stopped");
-            //}
+        //  if (gamepad2.right_trigger > 0.0) {
+        //    hardware.outtake.setPower(-gamepad2.right_trigger);
+        //  telemetry.addData("Flywheels:: ", "Spinning");
+        //} else {
+        //   hardware.outtake.setPower(0.0);
+        //  telemetry.addData("Flywheels:: ", "Stopped");
+        //}
         //}
 
         //New Outtake Flywheel controls
-        if(gamepad2.right_trigger>0.0){
-            hardware.outtake.setPower(-gamepad2.right_trigger);
-            telemetry.addData("Flywheels:: ", "Spinning");
+        if(gamepad2.square){
+            hardware.outtake.setPower(-1.0);
+            telemetry.addData("Flywheels: ", "Spinning");
         }else{
             hardware.outtake.setPower(0.0);
-            telemetry.addData("Flywheels:: ", "Stopped");
         }
 
-        //New pusher controls
-        if(gamepad2.right_bumper){
-            hardware.launchPusher.setPosition(1.0);
-        }else if(gamepad2.left_bumper){
-            hardware.launchPusher.setPosition(-1.0);
+        if(gamepad2.circle){
+            hardware.outtake.setPower(-0.75);
+            telemetry.addData("Flywheels: " , "Long Range");
+        }else{
+            hardware.outtake.setPower(0.0);
         }
+
+       // if(gamepad2.square){
+         //   hardware.outtake.setPower(-1.0);
+          //  telemetry.addData("Flywheels:: ", "Spinning");
+        //}else if (gamepad2.circle){
+         //   hardware.outtake.setPower(0.0);
+          //  telemetry.addData("Flywheels:: ", "Stopped");
+        //}else if(gamepad2.cross){
+         //   hardware.outtake.setPower(-0.75);
+          //  telemetry.addData("Flywheel" , "back");
+        //}
+
+        //New pusher controls
+
+        if(gamepad2.left_bumper){
+            hardware.launchPusher.setPosition(-1.0);
+        }else{
+            hardware.launchPusher.setPosition(1.0);
+        }
+
+        //if(gamepad2.right_bumper){    //Change to left bumper
+         //   hardware.launchPusher.setPosition(1.0); //Make this -1.0
+        //}else if(gamepad2.left_bumper){      //Remove this condition and make it an else
+         //   hardware.launchPusher.setPosition(-1.0);  //set the position to 1.0
+        //}
+
+
     }
 
     public void arm(){
-     //   if(gamepad2.options) {
-       //     if (gamepad2.right_trigger > 0.0) {
-         //       hardware.arm.setPower(gamepad2.right_trigger * 0.50);
-           // } else if (gamepad2.left_trigger > 0.0) {
-             //   hardware.arm.setPower(-gamepad2.left_trigger * 0.50);
-            //} else {
-             //   hardware.arm.setPower(0);
-            //}
+        //   if(gamepad2.options) {
+        //     if (gamepad2.right_trigger > 0.0) {
+        //       hardware.arm.setPower(gamepad2.right_trigger * 0.50);
+        // } else if (gamepad2.left_trigger > 0.0) {
+        //   hardware.arm.setPower(-gamepad2.left_trigger * 0.50);
+        //} else {
+        //   hardware.arm.setPower(0);
+        //}
 
         //New Arm Controls
 
-        if(gamepad2.square){
-            hardware.arm.setPower(ARM_SPEED);
-        }else if (gamepad2.circle){
-            hardware.arm.setPower(-ARM_SPEED);
+        if(gamepad2.right_trigger>0.0){
+            hardware.arm.setPower(gamepad2.right_trigger *0.5);
+        }else if (gamepad2.left_trigger>0.0){
+            hardware.arm.setPower(-gamepad2.left_trigger *0.5);
+        }else{
+            hardware.arm.setPower(0.0);
         }
     }
 
@@ -215,6 +239,8 @@ public class LinguineTeleOp extends OpMode {
 
 
 }
+
+
 
 
 

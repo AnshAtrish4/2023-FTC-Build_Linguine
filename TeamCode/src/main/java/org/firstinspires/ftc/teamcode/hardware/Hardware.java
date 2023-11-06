@@ -78,7 +78,8 @@ public class Hardware {
         outtake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         launchPusher = hardwareMap.get(Servo.class,HardwareIDs.PUSHER);
-        launchPusher.setPosition(0.0);
+        launchPusher.setPosition(1.0);   //Make this 1.0 if the condition doesn't work
+        //The position above was 0.0 before
 
     }
 
