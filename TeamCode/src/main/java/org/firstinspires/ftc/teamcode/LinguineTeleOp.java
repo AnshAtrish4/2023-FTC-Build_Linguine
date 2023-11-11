@@ -179,12 +179,12 @@ public class LinguineTeleOp extends OpMode {
             hardware.outtake.setPower(0.0);
         }
 
-        if(gamepad2.circle){
-            hardware.outtake.setPower(-0.75);
-            telemetry.addData("Flywheels: " , "Long Range");
-        }else{
-            hardware.outtake.setPower(0.0);
-        }
+       //if(gamepad2.circle){
+        //    hardware.outtake.setPower(-0.75);
+         //   telemetry.addData("Flywheels: " , "Long Range");
+        //}else{
+        //    hardware.outtake.setPower(0.0);
+        //}
 
        // if(gamepad2.square){
          //   hardware.outtake.setPower(-1.0);
