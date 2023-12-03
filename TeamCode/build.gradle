@@ -33,3 +33,11 @@ dependencies {
     implementation 'org.openftc:apriltag:2.0.0'
 }
 
+dependencies {
+    implementation 'org.openftc:easyopencv:1.5.2'
+}
+
+dependencies{
+    implementation 'org.openftc:apriltag:1.1.0'
+}
+
