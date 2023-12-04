@@ -7,6 +7,8 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import org.firstinspires.ftc.teamcode.hardware.Hardware;
+import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
+
 import com.acmerobotics.roadrunner.geometry.Pose2d;
 
 public class CameraPathSequence {
@@ -15,8 +17,8 @@ public class CameraPathSequence {
     Utilities utilities;
 
     //Trajectories
-    Trajectory toGoal;
-    Trajectory parkTwo;
+    TrajectorySequence toGoal;
+    TrajectorySequence parkTwo;
 
 
     Pose2d startPose = new Pose2d(-60,12,Math.toRadians(180));
@@ -28,14 +30,14 @@ public class CameraPathSequence {
         drive = new SampleMecanumDrive(hardwareMap);
         drive.setPoseEstimate(startPose);
 
-        toGoal = drive.trajectoryBuilder(startPose)
-                .strafeLeft(2)
-                .forward(10)
-                .strafeLeft(4)
+        toGoal = drive.trajectorySequenceBuilder(startPose)
+                .strafeLeft(-2)
+                .forward(-10)
+                .strafeLeft(-4)
                 .build();
-        parkTwo = drive.trajectoryBuilder((toGoal.end()))
-                .strafeRight(10)
-                .back(28)
+        parkTwo = drive.trajectorySequenceBuilder((toGoal.end()))
+                .strafeRight(-10)
+                .back(-28)
                 .build();
 
 
@@ -44,12 +46,12 @@ public class CameraPathSequence {
     }
 
     public void blue2(){
-        drive.followTrajectory(toGoal);
+        drive.followTrajectorySequence(toGoal);
         drive.turn(Math.toRadians(30));
         utilities.outtakeWheel(1);
         utilities.shoot();
         drive.turn(Math.toRadians(-30));
-        drive.followTrajectory(parkTwo);
+        drive.followTrajectorySequence(parkTwo);
 
     }
 
