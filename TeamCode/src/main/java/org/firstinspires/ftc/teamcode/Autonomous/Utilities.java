@@ -33,6 +33,6 @@ public class Utilities
 
     public void outtakeWheel(double velocity)
     {
-        hardware.outtake.setVelocity(velocity);
+        hardware.outtake.setPower(velocity);
     }
 }
