@@ -1,29 +1,25 @@
 package org.firstinspires.ftc.teamcode.Autonomous;
 
+import com.acmerobotics.roadrunner.geometry.Pose2d;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import org.firstinspires.ftc.teamcode.hardware.Hardware;
 import org.firstinspires.ftc.teamcode.trajectorysequence.TrajectorySequence;
 
-import com.acmerobotics.roadrunner.geometry.Pose2d;
-
-public class CameraPathSequence {
+public class Blue3Sequence {
     SampleMecanumDrive drive;
     Hardware hardware;
     Utilities utilities;
 
     //Trajectories
     TrajectorySequence toGoal;
-    TrajectorySequence parkTwo;
+    TrajectorySequence parkThree;
 
 
     Pose2d startPose = new Pose2d(-60,12,Math.toRadians(180));
 
-    public CameraPathSequence(HardwareMap hardwareMap , Utilities utilities){
+    public Blue3Sequence(HardwareMap hardwareMap , Utilities utilities){
         hardware = new Hardware();
         hardware.init(hardwareMap);
         this.utilities = utilities;
@@ -31,13 +27,14 @@ public class CameraPathSequence {
         drive.setPoseEstimate(startPose);
 
         toGoal = drive.trajectorySequenceBuilder(startPose)
-                .strafeLeft(-2)
-                .forward(-10)
-                .strafeLeft(-4)
+                .strafeLeft(15)
+                .forward(-65)
+                .turn(Math.toRadians(43.4))
                 .build();
-        parkTwo = drive.trajectorySequenceBuilder((toGoal.end()))
-                .strafeRight(-10)
-                .back(-28)
+        parkThree = drive.trajectorySequenceBuilder((toGoal.end()))
+                .turn(Math.toRadians(-43.4))
+                .strafeRight(5)
+                .forward(17)
                 .build();
 
 
@@ -45,13 +42,14 @@ public class CameraPathSequence {
 
     }
 
-    public void blue2(){
+    public void blue3(){
         drive.followTrajectorySequence(toGoal);
-        drive.turn(Math.toRadians(30));
-        utilities.outtakeWheel(1);
+        utilities.outtakeWheel(0.87);
+        utilities.wait(2000);
         utilities.shoot();
-        drive.turn(Math.toRadians(-30));
-        drive.followTrajectorySequence(parkTwo);
+        utilities.wait(2000);
+        utilities.outtakeWheel(0);
+        drive.followTrajectorySequence(parkThree);
 
     }
 
